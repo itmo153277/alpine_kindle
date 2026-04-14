@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon=mate-mousekeys-pressed-right
+Exec=sh -c "xinput --set-button-map \\"Xephyr virtual mouse\\" 3 2 0 0 0 0 0 0 0 0 && sleep 2 && xinput --set-button-map \\"Xephyr virtual mouse\\" 1 2 0 0 0 0 0 0 0 0 && notify-send \\"Right click timeout\\" "
+Name=Right Click
