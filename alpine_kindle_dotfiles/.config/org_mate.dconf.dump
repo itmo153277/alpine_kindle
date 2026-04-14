@@ -44,7 +44,7 @@ theme='HighContrast'
 
 [panel/general]
 default-layout='fedora'
-object-id-list=['web-browser', 'notification-area', 'clock', 'object-0', 'object-3', 'object-2', 'object-4', 'object-1', 'object-5', 'object-6', 'object-7']
+object-id-list=['notification-area', 'clock', 'object-0', 'object-3', 'object-2', 'object-4', 'object-1', 'object-5', 'object-6', 'object-7']
 toplevel-id-list=['top']
 
 [panel/menubar]
@@ -74,7 +74,7 @@ applet-iid='NotificationAreaAppletFactory::NotificationArea'
 locked=true
 object-type='applet'
 panel-right-stick=false
-position=368
+position=504
 toplevel-id='top'
 
 [panel/objects/object-0]
@@ -111,7 +111,7 @@ launcher-location='xinput.desktop'
 locked=true
 object-type='launcher'
 panel-right-stick=false
-position=260
+position=396
 toplevel-id='top'
 
 [panel/objects/object-4]
@@ -127,7 +127,7 @@ launcher-location='xdotool.desktop'
 locked=true
 object-type='launcher'
 panel-right-stick=false
-position=332
+position=468
 toplevel-id='top'
 
 [panel/objects/object-6]
@@ -135,7 +135,7 @@ launcher-location='xdotool-1.desktop'
 locked=true
 object-type='launcher'
 panel-right-stick=false
-position=296
+position=432
 toplevel-id='top'
 
 [panel/objects/object-7]
@@ -143,19 +143,12 @@ applet-iid='CommandAppletFactory::CommandApplet'
 locked=true
 object-type='applet'
 panel-right-stick=false
-position=410
+position=546
 toplevel-id='top'
 
 [panel/objects/object-7/prefs]
 command='bash /home/alpine/.local/bin/getBat.sh'
-interval=10
-
-[panel/objects/web-browser]
-launcher-location='/usr/share/applications/firefox.desktop'
-locked=true
-object-type='launcher'
-position=30
-toplevel-id='top'
+interval=60
 
 [panel/toplevels/top]
 enable-arrows=true
@@ -164,7 +157,7 @@ expand=true
 orientation='bottom'
 screen=0
 size=36
-y=688
+y=812
 y-bottom=0
 
 [pluma]

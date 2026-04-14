@@ -5,17 +5,19 @@ if [ "$(mount | grep /tmp/alpine)" ] ; then
 	ALREADYMOUNTED="yes"
 	echo "ATTENTION! Alpine's rootfs is already mounted, thus you will be just dropped into it."
 	echo "BE CAREFUL to leave this shell first, as there will be no umount either (To not disturb the other session)."
-   else
+else
 	echo "Mounting Alpine rootfs"
 	mkdir -p /tmp/alpine
 	mount -o loop,noatime -t ext3 /mnt/base-us/alpine.img /tmp/alpine
 	mount -o bind /dev /tmp/alpine/dev
 	mount -o bind /dev/pts /tmp/alpine/dev/pts
+	mount -t tmpfs tmpfs /tmp/alpine/dev/shm
 	mount -o bind /proc /tmp/alpine/proc
 	mount -o bind /sys /tmp/alpine/sys
+	mount -t tmpfs tmpfs /tmp/alpine/tmp
 	mount -o bind /var/run/dbus/ /tmp/alpine/run/dbus/
 	cp /etc/hosts /tmp/alpine/etc/hosts
-	chmod a+w /dev/shm
+	cp /etc/localtime /tmp/alpine/etc/localtime
 fi
 
 echo "You're now being dropped into Alpine's shell"
@@ -30,10 +32,12 @@ else
 
 	echo "Unmounting Alpine rootfs"
 	LOOPDEV="$(mount | grep loop | grep /tmp/alpine | cut -d" " -f1)"
+	sleep 5
 	umount /tmp/alpine/run/dbus/
+	umount /tmp/alpine/tmp
 	umount /tmp/alpine/sys
-	sleep 1
 	umount /tmp/alpine/proc
+	umount /tmp/alpine/dev/shm
 	umount /tmp/alpine/dev/pts
 	umount /tmp/alpine/dev
 	# Sync beforehand so umount doesn't fail due to the device being busy still
