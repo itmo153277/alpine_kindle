@@ -38,7 +38,7 @@ theme='slider'
 
 [marco/general]
 button-layout='menu:minimize,maximize,close'
-compositing-manager=false
+compositing-manager=true
 num-workspaces=1
 theme='HighContrast'
 
@@ -165,11 +165,8 @@ active-plugins=['modelines', 'spell', 'time', 'filebrowser', 'docinfo']
 statusbar-visible=true
 
 [screensaver]
-embedded-keyboard-command='onboard --xid'
-embedded-keyboard-enabled=true
-lock-enabled=true
-mode='blank-only'
-themes=@as []
+lock-enabled=false
+idle-activation-enabled=false
 
 [screenshot]
 border-effect='none'

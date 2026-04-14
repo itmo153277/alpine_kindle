@@ -11,13 +11,12 @@ else
 	mount -o loop,noatime -t ext3 /mnt/base-us/alpine.img /tmp/alpine
 	mount -o bind /dev /tmp/alpine/dev
 	mount -o bind /dev/pts /tmp/alpine/dev/pts
-	mount -t tmpfs tmpfs /tmp/alpine/dev/shm
 	mount -o bind /proc /tmp/alpine/proc
 	mount -o bind /sys /tmp/alpine/sys
 	mount -t tmpfs tmpfs /tmp/alpine/tmp
 	mount -o bind /var/run/dbus/ /tmp/alpine/run/dbus/
 	cp /etc/hosts /tmp/alpine/etc/hosts
-	cp /etc/localtime /tmp/alpine/etc/localtime
+	chmod a+w /dev/shm
 fi
 
 echo "You're now being dropped into Alpine's shell"
@@ -37,7 +36,6 @@ else
 	umount /tmp/alpine/tmp
 	umount /tmp/alpine/sys
 	umount /tmp/alpine/proc
-	umount /tmp/alpine/dev/shm
 	umount /tmp/alpine/dev/pts
 	umount /tmp/alpine/dev
 	# Sync beforehand so umount doesn't fail due to the device being busy still
