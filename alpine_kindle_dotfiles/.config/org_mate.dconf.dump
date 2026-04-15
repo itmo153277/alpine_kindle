@@ -1,3 +1,6 @@
+[caja/preferences]
+click-policy='single'
+
 [caja/window-state]
 maximized=true
 sidebar-width=96
@@ -5,19 +8,24 @@ start-with-sidebar=true
 start-with-status-bar=true
 start-with-toolbar=true
 
+[desktop/applications/at/mobility]
+exec='onboard'
+startup=true
+
 [desktop/background]
 color-shading-type='solid'
 primary-color='rgb(238,238,236)'
-show-desktop-icons=false
 
 [desktop/font-rendering]
 antialiasing='grayscale'
+dpi=96.0
 hinting='slight'
 
 [desktop/interface]
 accessibility=true
 enable-animations=false
 gtk-decoration-layout='menu:minimize,maximize,close'
+gtk-enable-animations=false
 gtk-theme='HighContrast'
 icon-theme='ContrastHigh'
 window-scaling-factor=2
@@ -32,18 +40,19 @@ drag-threshold=10
 [desktop/session]
 idle-delay=15
 
-[notification-daemon]
-popup-location='top_right'
-theme='slider'
-
 [marco/general]
 button-layout='menu:minimize,maximize,close'
 compositing-manager=true
 num-workspaces=1
 theme='HighContrast'
 
+[notification-daemon]
+popup-location='top_right'
+theme='slider'
+
 [panel/general]
 default-layout='fedora'
+enable-animations=false
 object-id-list=['notification-area', 'clock', 'object-0', 'object-3', 'object-2', 'object-4', 'object-1', 'object-5', 'object-6', 'object-7']
 toplevel-id-list=['top']
 
@@ -64,7 +73,7 @@ cities=@as []
 custom-format=''
 expand-locations=false
 format='24-hour'
-show-date=true
+show-date=false
 show-seconds=false
 show-temperature=false
 show-weather=false
@@ -74,7 +83,7 @@ applet-iid='NotificationAreaAppletFactory::NotificationArea'
 locked=true
 object-type='applet'
 panel-right-stick=false
-position=504
+position=512
 toplevel-id='top'
 
 [panel/objects/object-0]
@@ -111,7 +120,7 @@ launcher-location='xinput.desktop'
 locked=true
 object-type='launcher'
 panel-right-stick=false
-position=396
+position=404
 toplevel-id='top'
 
 [panel/objects/object-4]
@@ -127,7 +136,7 @@ launcher-location='xdotool.desktop'
 locked=true
 object-type='launcher'
 panel-right-stick=false
-position=468
+position=476
 toplevel-id='top'
 
 [panel/objects/object-6]
@@ -135,7 +144,7 @@ launcher-location='xdotool-1.desktop'
 locked=true
 object-type='launcher'
 panel-right-stick=false
-position=432
+position=440
 toplevel-id='top'
 
 [panel/objects/object-7]
@@ -143,7 +152,7 @@ applet-iid='CommandAppletFactory::CommandApplet'
 locked=true
 object-type='applet'
 panel-right-stick=false
-position=546
+position=554
 toplevel-id='top'
 
 [panel/objects/object-7/prefs]
@@ -151,6 +160,7 @@ command='bash /home/alpine/.local/bin/getBat.sh'
 interval=60
 
 [panel/toplevels/top]
+enable-animations=false
 enable-arrows=true
 enable-buttons=false
 expand=true
@@ -165,8 +175,12 @@ active-plugins=['modelines', 'spell', 'time', 'filebrowser', 'docinfo']
 statusbar-visible=true
 
 [screensaver]
-lock-enabled=false
+embedded-keyboard-command='onboard --xid'
+embedded-keyboard-enabled=true
 idle-activation-enabled=false
+lock-enabled=false
+mode='blank-only'
+themes=@as []
 
 [screenshot]
 border-effect='none'

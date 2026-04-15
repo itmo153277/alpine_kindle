@@ -11,10 +11,6 @@ enabled=true
 [icon-palette]
 in-use=false
 
-[icon-palette/portrait]
-x=471
-y=38
-
 [keyboard]
 show-click-buttons=false
 

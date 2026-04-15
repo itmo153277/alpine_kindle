@@ -14,7 +14,7 @@
 #              created image/install more packages/whatever. To finish the script just leave the sh shell with "exit"
 # STARGUI: This is the script that gets executed inside the container when the GUI is started. Xepyhr is used to render the desktop
 #          inside a window, that has the correct name to be displayed in fullscreen by the kindle's awesome windowmanager
-REPO="http://dl-cdn.alpinelinux.org/alpine"
+REPO="http://ap.edge.kernel.org/alpine"
 ARCH="armv7"
 MNT="/mnt/alpine"
 IMAGE="./alpine.img"
@@ -27,9 +27,11 @@ apk update
 apk upgrade
 cat /etc/alpine-release
 apk add xorg-server-xephyr xwininfo xdotool xinput dbus-x11 sudo bash nano
-apk add mate-session-manager mate-control-center mate-settings-daemon mate-panel mate-menus mate-desktop mate-themes caja mate-terminal mate-applets mate-screensaver mate-polkit mate-notification-daemon
+apk add mate-session-manager mate-control-center mate-settings-daemon mate-panel mate-menus mate-desktop mate-themes caja caja-extensions mate-terminal mate-applets mate-screensaver mate-polkit mate-notification-daemon gvfs
 apk add font-dejavu font-terminus font-noto font-noto-cjk font-ipa font-jis-misc font-misc-cyrillic
 apk add onboard chromium
+cp -R /usr/share/icons/HighContrast/. /usr/share/icons/ContrastHigh/.
+gtk-update-icon-cache -f /usr/share/icons/ContrastHigh
 adduser alpine -D
 echo -e \"alpine\nalpine\" | passwd alpine
 echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
@@ -43,10 +45,11 @@ rm ~/.config/*.dump\"
 
 echo '
 mouseid=\"\$(env DISPLAY=:1 xinput list --id-only \"Xephyr virtual mouse\")\"
-CHROMIUM_FLAGS='\''--force-device-scale-factor=2 --touch-devices='\''\$mouseid'\'' --pull-to-refresh=1 --disable-smooth-scrolling --enable-low-end-device-mode --disable-login-animations --disable-modal-animations --wm-window-animations-disabled --start-maximized'\''' > /etc/chromium/chromium.conf
+CHROMIUM_FLAGS='\''--force-device-scale-factor=2 --touch-devices='\''\$mouseid'\'' --pull-to-refresh=1 --disable-smooth-scrolling --enable-low-end-device-mode --disable-login-animations --disable-modal-animations --wm-window-animations-disabled --animation-duration-scale=0 --start-maximized'\''' > /etc/chromium/chromium.conf
 "
 STARTGUI='#!/bin/sh
 chmod a+w /dev/shm
+cd /home/alpine
 SIZE=$(xwininfo -root -display :0 | egrep "geometry" | cut -d " "  -f4)
 env DISPLAY=:0 Xephyr :1 -title "L:D_N:application_ID:xephyr" -nocursor -ac -br -screen $SIZE -cc 4 -reset -terminate & sleep 3 && su alpine -c "env DISPLAY=:1 mate-session"
 killall Xephyr'
