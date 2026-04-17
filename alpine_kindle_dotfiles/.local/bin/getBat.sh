@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Get battery status
 # Based on http://trac.ak-team.com/trac/browser/niluje/Configs/trunk/Kindle/Misc/zshrc#L788
 
@@ -11,16 +11,9 @@ for my_batt_capacity in /sys/class/power_supply/bd71827_bat/capacity /sys/class/
 			PR_BATTERY_RESULT="$(${my_batt_capacity} -c 2>/dev/null)"
 			break
 		else
-			PR_BATTERY_RESULT="$(< ${my_batt_capacity})"
+			PR_BATTERY_RESULT="$(cat ${my_batt_capacity})"
 			break
 		fi
 	fi
 done
-my_batt_current="${my_batt_capacity/capacity/current}"
 echo "${PR_BATTERY_RESULT}%"
-if [ ${my_batt_capacity} != ${my_batt_current} ] ; then
-	if [[ -f "${my_batt_current}" ]] ; then
-		PR_BATTERY_CURRENT="$(< ${my_batt_current})"
-		echo "${PR_BATTERY_CURRENT}mAØ"
-	fi
-fi

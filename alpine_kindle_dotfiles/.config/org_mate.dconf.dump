@@ -156,7 +156,7 @@ position=554
 toplevel-id='top'
 
 [panel/objects/object-7/prefs]
-command='bash /home/alpine/.local/bin/getBat.sh'
+command='sh /home/alpine/.local/bin/getBat.sh'
 interval=60
 
 [panel/toplevels/top]
