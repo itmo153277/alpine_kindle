@@ -11,12 +11,13 @@ else
 	mount -o loop,noatime -t ext3 /mnt/base-us/alpine.img /tmp/alpine
 	mount -o bind /dev /tmp/alpine/dev
 	mount -o bind /dev/pts /tmp/alpine/dev/pts
+	mount -o bind /dev/shm /tmp/alpine/dev/shm
 	mount -o bind /proc /tmp/alpine/proc
 	mount -o bind /sys /tmp/alpine/sys
+	mount -t tmpfs tmpfs /tmp/alpine/run
+	mkdir /tmp/alpine/run/dbus
 	mount -t tmpfs tmpfs /tmp/alpine/tmp
-	mount -o bind /var/run/dbus/ /tmp/alpine/run/dbus/
 	cp /etc/hosts /tmp/alpine/etc/hosts
-	chmod a+w /dev/shm
 fi
 
 echo "You're now being dropped into Alpine's shell"
@@ -32,20 +33,19 @@ else
 	echo "Unmounting Alpine rootfs"
 	LOOPDEV="$(mount | grep loop | grep /tmp/alpine | cut -d" " -f1)"
 	sleep 5
-	umount /tmp/alpine/run/dbus/
-	umount /tmp/alpine/tmp
-	umount /tmp/alpine/sys
-	umount /tmp/alpine/proc
-	umount /tmp/alpine/dev/pts
-	umount /tmp/alpine/dev
-	# Sync beforehand so umount doesn't fail due to the device being busy still
 	sync
-	umount /tmp/alpine || true
 	# Sometimes it fails still and only works by trying again
 	while [ "$(mount | grep /tmp/alpine)" ]
 	do
 		echo "Alpine is still mounted, trying again shortly.."
 		sleep 3
+		umount /tmp/alpine/tmp || true
+		umount /tmp/alpine/run || true
+		umount /tmp/alpine/sys || true
+		umount /tmp/alpine/proc || true
+		umount /tmp/alpine/dev/shm || true
+		umount /tmp/alpine/dev/pts || true
+		umount /tmp/alpine/dev || true
 		umount /tmp/alpine || true
 	done
 	echo "Alpine unmounted"
