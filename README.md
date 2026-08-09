@@ -9,6 +9,7 @@ Prerequisites:
 - qemu-user-static
 - curl
 - e2fsprogs
+- lsof
 
 Run create_kindle_alpine_image.sh as root. This will build the latest **stable** alpine in alpine.img
 
