@@ -27,9 +27,13 @@ apk update
 apk upgrade
 cat /etc/alpine-release
 apk add musl-locales lang xorg-server-xephyr xwininfo xdotool xinput dbus-x11 sudo nano alsa-plugins-pulse pulseaudio
-apk add mate-session-manager mate-control-center mate-settings-daemon mate-panel mate-menus mate-desktop mate-themes caja caja-extensions mate-terminal mate-applets mate-screensaver mate-notification-daemon gvfs
+apk add mate-session-manager mate-control-center mate-settings-daemon mate-panel mate-menus mate-desktop mate-themes caja caja-extensions mate-terminal mate-applets mate-screensaver mate-notification-daemon gvfs icu-data-full
 apk add font-dejavu font-terminus font-noto font-noto-cjk font-ipa font-jis-misc font-misc-cyrillic
 apk add onboard chromium
+sed -i '\$ d' /etc/apk/repositories
+rm /etc/apk/keys/*
+apk fix --reinstall --allow-untrusted alpine-keys
+rm -rf /var/cache/apk/*
 cp -R /usr/share/icons/HighContrast/. /usr/share/icons/ContrastHigh/.
 gtk-update-icon-cache -f /usr/share/icons/ContrastHigh
 for loc in /usr/share/i18n/locales/musl/*.UTF-8 ; do
@@ -112,6 +116,8 @@ mount -o bind /sys "$MNT/sys"
 cp -R $(dirname "$0")/alpine_kindle_dotfiles "$MNT/tmp/"
 cp $(dirname "$0")/kaf-stub "$MNT/"
 cp $(dirname "$0")/chroot-escape "$MNT/usr/local/bin/"
+cp $(dirname "$0")/keys/*.pub $MNT/etc/apk/keys
+cp -R $(dirname "$0")/packages $MNT/tmp/
 
 # CONFIGURE ALPINE
 # Some configuration needed
@@ -119,7 +125,8 @@ cp /etc/resolv.conf "$MNT/etc/resolv.conf" # Copy resolv from host for internet 
 # Configure repositories for apk (edge main+community+testing for lots of useful and up-to-date software)
 mkdir -p "$MNT/etc/apk"
 echo "$REPO/latest-stable/main/
-$REPO/latest-stable/community/" > "$MNT/etc/apk/repositories"
+$REPO/latest-stable/community/
+/tmp/packages" > "$MNT/etc/apk/repositories"
 # Create the script to start the gui
 echo "$STARTGUI" > "$MNT/startgui.sh"
 chmod +x "$MNT/startgui.sh"
